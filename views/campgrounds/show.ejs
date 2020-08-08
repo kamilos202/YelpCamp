@@ -1,0 +1,62 @@
+<%- include("../partials/header") %>
+
+
+	<div class="container down-nav">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="list-group">
+					<div class="list-group-item active">Info 1</div>
+					<div class="list-group-item">Info 2</div>
+					<div class="list-group-item">Info 3</div>
+				</div>
+				<!-- <div class="img-thumbnail maps">
+					<img src="/img/map-google.gif">
+				</div> -->
+			</div>
+			<div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= campground.image %>">
+                <div class="caption-full">
+                    <h4 class="float-right"><%= campground.price %> $/night</h4>
+                    <h4><a><%=campground.name%></a></h4>
+                    <p><%= campground.description %></p>
+                    <p>
+                        <em>Submitted By <%= campground.author.username %></em>
+                    </p>
+                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+                        <form id="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form>
+                    <% }%>
+                </div>
+            </div>
+					
+				<div class="card">
+					<% campground.comments.forEach(function(comment){ %>
+						<div class="card-body">
+							<h5>
+								<%=comment.author.username%>
+							</h5>
+							<p>
+								<%=comment.text%>
+							</p>
+							<% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+								<a class="card-link btn btn-sm btn-outline-warning" href="/campgrounds/<%= campground._id%>/comments/<%=comment._id%>/edit">
+									Edit
+								</a>
+								<form action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/?_method=DELETE" method="POST" class="del-btn">
+									<button class="card-link btn btn-sm btn-outline-danger" href="/campgrounds/<%= campground._id%>">
+										Delete
+									</button>
+								</form>
+							<%}%>
+						</div>
+					<% });%>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<%- include("../partials/footer") %>
